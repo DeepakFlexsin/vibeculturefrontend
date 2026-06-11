@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "https://api.krivante.store/sitemap.xml",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

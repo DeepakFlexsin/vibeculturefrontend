@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold: #c9a84c;
+  --gold-light: #f0d080;
+  --gold-dark: #8b6914;
+  --dark: #0a0a0f;
+  --dark2: #12121a;
+  --dark3: #1a1a28;
+}
+
+* { font-family: 'Outfit', sans-serif; }
+.font-serif { font-family: 'Cormorant Garamond', serif; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+a.active hr { display: block; }
+
+@media (max-width:640px) {
+  a.active { background-color: black; color: white; }
+}
+
+/* ── Gold shimmer text ── */
+.gold-text {
+  background: linear-gradient(135deg, #c9a84c 0%, #f0d080 40%, #c9a84c 60%, #8b6914 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gold-shine 3s linear infinite;
+}
+@keyframes gold-shine {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ── Shimmer loading skeleton ── */
+.shimmer {
+  background: linear-gradient(90deg, #1a1a28 25%, #2a2a3a 50%, #1a1a28 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── Floating animation ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-12px) rotate(1deg); }
+  66% { transform: translateY(-6px) rotate(-1deg); }
+}
+.float { animation: float 4s ease-in-out infinite; }
+
+/* ── Particle sparkle ── */
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1) rotate(180deg); }
+}
+.sparkle { animation: sparkle 2s ease-in-out infinite; }
+
+/* ── Glassmorphism ── */
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(201,168,76,0.15);
+}
+.glass-dark {
+  background: rgba(10,10,15,0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(201,168,76,0.2);
+}
+
+/* ── Gold border glow ── */
+.gold-glow {
+  box-shadow: 0 0 20px rgba(201,168,76,0.3), 0 0 40px rgba(201,168,76,0.1);
+}
+.gold-glow:hover {
+  box-shadow: 0 0 30px rgba(201,168,76,0.5), 0 0 60px rgba(201,168,76,0.2);
+}
+
+/* ── Card hover lift ── */
+.card-lift {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+.card-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.2);
+}
+
+/* ── Luxury button ── */
+.btn-gold {
+  background: linear-gradient(135deg, #c9a84c, #f0d080, #c9a84c);
+  background-size: 200% auto;
+  color: #0a0a0f;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+}
+.btn-gold:hover {
+  background-position: right center;
+  box-shadow: 0 8px 25px rgba(201,168,76,0.4);
+  transform: translateY(-2px);
+}
+
+/* ── Marquee ── */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 20s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+
+/* ── Reveal on scroll ── */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { animation: reveal-up 0.7s ease forwards; }
+
+/* ── Pulse ring ── */
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+/* ── Diagonal stripe bg ── */
+.stripe-bg {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(201,168,76,0.03) 10px,
+    rgba(201,168,76,0.03) 20px
+  );
+}
