@@ -4,9 +4,7 @@ import Hero from '../components/Hero'
 import CategorySlider from '../components/CategorySlider'
 import FlashSale from '../components/FlashSale'
 import LatestCollection from '../components/LatestCollection'
-import StyleQuiz from '../components/StyleQuiz'
 import BestSeller from '../components/BestSeller'
-import SpinWheel from '../components/SpinWheel'
 import OurPolicy from '../components/OurPolicy'
 import NewsletterBox from '../components/NewsletterBox'
 
@@ -14,17 +12,15 @@ const Home = () => {
   return (
     <div>
       <Helmet>
-        <title>Krivante | Premium Kitchen Utensils, Dry Fruits & Spices</title>
-        <meta name="description" content="Shop premium kitchen utensils, pure dry fruits, dates, nuts & hand-picked spices at Krivante. Quality products, great prices, fast delivery across India." />
-        <link rel="canonical" href="https://www.krivante.store/" />
+        <title>VibeCulture | Premium T-Shirts, Gym Tank Tops & Jeans for Men</title>
+        <meta name="description" content="Shop premium men's T-shirts, gym tank tops and jeans at VibeCulture. 240 GSM fabric, superior fit and style. Fast delivery across India." />
+        <link rel="canonical" href="https://www.vibeculture.in/" />
       </Helmet>
       <Hero />
       <CategorySlider />
       <FlashSale />
       <LatestCollection/>
-      <StyleQuiz />
       <BestSeller/>
-      <SpinWheel />
       <OurPolicy/>
       <NewsletterBox/>
     </div>

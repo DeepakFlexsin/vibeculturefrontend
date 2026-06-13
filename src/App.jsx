@@ -25,8 +25,8 @@ const ScrollToTop = () => {
 
 const App = () => {
   return (
-    <div className='bg-[#0a0a0f] min-h-screen'>
-      <ToastContainer theme='dark' toastStyle={{ background: '#12121a', border: '1px solid rgba(201,168,76,0.2)', color: '#fff' }} />
+    <div className='bg-white min-h-screen'>
+      <ToastContainer theme='light' toastStyle={{ background: '#ffffff', border: '1px solid rgba(13, 107, 159, 0.2)', color: '#2c3e50' }} />
       <div>
         <ScrollToTop />
         <Navbar />

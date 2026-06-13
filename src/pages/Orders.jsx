@@ -24,7 +24,7 @@ const TrackingTimeline = ({ status }) => {
         {/* connecting line */}
         <div className='absolute top-4 left-0 right-0 h-[2px] bg-white/10' />
         <div
-          className='absolute top-4 left-0 h-[2px] bg-gradient-to-r from-[#c9a84c] to-[#f0d080] transition-all duration-700'
+          className='absolute top-4 left-0 h-[2px] bg-gradient-to-r from-[#0d6b9f] to-[#1e8bc3] transition-all duration-700'
           style={{ width: `${(current / (STEPS.length - 1)) * 100}%` }}
         />
 
@@ -35,12 +35,12 @@ const TrackingTimeline = ({ status }) => {
             <div key={step} className='relative flex flex-col items-center gap-2 z-10' style={{ width: `${100 / STEPS.length}%` }}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm border-2 transition-all duration-500 ${
                 done
-                  ? 'border-[#c9a84c] bg-[#c9a84c]/20 text-white'
-                  : 'border-white/15 bg-[#0a0a0f] text-white/20'
-              } ${active ? 'ring-2 ring-[#c9a84c]/40 ring-offset-1 ring-offset-[#0a0a0f]' : ''}`}>
+                  ? 'border-[#0d6b9f] bg-[#0d6b9f]/20 text-white'
+                  : 'border-white/15 bg-[#f8f9fa] text-gray-400'
+              } ${active ? 'ring-2 ring-[#0d6b9f]/40 ring-offset-1 ring-offset-[#f8f9fa]' : ''}`}>
                 {stepIcon(step)}
               </div>
-              <p className={`text-[10px] text-center leading-tight transition-colors duration-300 ${done ? 'text-white/70' : 'text-white/20'} ${active ? 'text-[#c9a84c] font-semibold' : ''}`}>
+              <p className={`text-[10px] text-center leading-tight transition-colors duration-300 ${done ? 'text-gray-700' : 'text-gray-400'} ${active ? 'text-[#0d6b9f] font-semibold' : ''}`}>
                 {step}
               </p>
             </div>
@@ -57,7 +57,7 @@ const statusDot = (status) => {
   if (s === 'delivered') return 'bg-green-400'
   if (s === 'cancelled') return 'bg-red-400'
   if (s.includes('ship') || s.includes('delivery')) return 'bg-blue-400'
-  return 'bg-[#c9a84c]'
+  return 'bg-[#0d6b9f]'
 }
 
 const Orders = () => {
@@ -84,27 +84,27 @@ const Orders = () => {
   useEffect(() => { loadOrderData() }, [token])
 
   return (
-    <div className='min-h-screen bg-[#0a0a0f] pt-6 pb-20 px-4 sm:px-6'>
+    <div className='min-h-screen bg-[#f8f9fa] pt-6 pb-20 px-4 sm:px-6'>
       <div className='max-w-4xl mx-auto'>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className='py-10 border-b border-[#c9a84c]/10 mb-10'>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className='py-10 border-b border-[#0d6b9f]/10 mb-10'>
           <Title text1='MY' text2='ORDERS' />
         </motion.div>
 
         {orderData.length === 0
-          ? <div className='text-center text-white/40 py-20 text-sm tracking-widest uppercase'>No orders yet</div>
+          ? <div className='text-center text-gray-600 py-20 text-sm tracking-widest uppercase'>No orders yet</div>
           : <div className='space-y-4'>
               {orderData.map((item, index) => (
                 <motion.div key={index} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.04 }}
-                  className='glass rounded-2xl border border-[#c9a84c]/15 overflow-hidden'>
+                  className='glass rounded-2xl border border-[#0d6b9f]/15 overflow-hidden bg-white'>
 
                   {/* Order row */}
                   <div className='p-5 flex flex-col sm:flex-row sm:items-center gap-5'>
 
-                    <img src={item.image[0]} alt={item.name} className='w-20 h-20 object-cover rounded-xl border border-[#c9a84c]/15 flex-shrink-0' />
+                    <img src={item.image[0]} alt={item.name} className='w-20 h-20 object-cover rounded-xl border border-[#0d6b9f]/15 flex-shrink-0' />
 
                     <div className='flex-1 space-y-1'>
-                      <p className='text-white font-semibold text-base'>{item.name}</p>
+                      <p className='text-gray-900 font-semibold text-base'>{item.name}</p>
                       <div className='flex flex-wrap items-center gap-3 text-sm text-white/60'>
                         <span className='gold-text font-bold'>{currency}{item.price}</span>
                         <span>·</span>
@@ -112,7 +112,7 @@ const Orders = () => {
                         <span>·</span>
                         <span>Size: {item.size}</span>
                       </div>
-                      <div className='flex flex-wrap gap-4 text-xs text-white/40 pt-1'>
+                      <div className='flex flex-wrap gap-4 text-xs text-gray-600 pt-1'>
                         <span>{new Date(item.date).toDateString()}</span>
                         <span>via {item.paymentMethod}</span>
                       </div>
@@ -125,7 +125,7 @@ const Orders = () => {
                       </div>
                       <button
                         onClick={() => setTracking(tracking === index ? null : index)}
-                        className='text-xs border border-[#c9a84c]/30 text-[#c9a84c] px-4 py-1.5 rounded-lg hover:bg-[#c9a84c]/10 transition-all duration-200 tracking-wider'>
+                        className='text-xs border border-[#0d6b9f]/30 text-[#0d6b9f] px-4 py-1.5 rounded-lg hover:bg-[#0d6b9f]/10 transition-all duration-200 tracking-wider'>
                         {tracking === index ? 'Hide' : 'Track Order'}
                       </button>
                     </div>
@@ -139,7 +139,7 @@ const Orders = () => {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className='overflow-hidden border-t border-[#c9a84c]/10 px-5'>
+                        className='overflow-hidden border-t border-[#0d6b9f]/10 px-5'>
                         <TrackingTimeline status={item.status} />
                       </motion.div>
                     )}

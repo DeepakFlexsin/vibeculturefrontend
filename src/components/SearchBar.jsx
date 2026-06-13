@@ -50,7 +50,7 @@ const SearchBar = () => {
             key='backdrop'
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setShowSearch(false)}
-            className='fixed inset-0 bg-black/80 backdrop-blur-sm z-[60]'
+            className='fixed inset-0 bg-black/20 backdrop-blur-sm z-[60]'
           />
 
           {/* Search panel */}
@@ -58,7 +58,7 @@ const SearchBar = () => {
             key='panel'
             initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className='fixed top-0 left-0 right-0 z-[70] glass-dark border-b border-[#c9a84c]/20 px-4 py-6 sm:px-10'
+            className='fixed top-0 left-0 right-0 z-[70] glass-dark border-b border-[#0d6b9f]/20 px-4 py-6 sm:px-10'
           >
             {/* Input row */}
             <div className='max-w-2xl mx-auto flex items-center gap-3'>
@@ -69,14 +69,14 @@ const SearchBar = () => {
                 onChange={e => setSearch(e.target.value)}
                 onKeyDown={e => e.key === 'Escape' && setShowSearch(false)}
                 placeholder='Search products, categories...'
-                className='flex-1 bg-transparent text-white placeholder-white/30 text-base outline-none'
+                className='flex-1 bg-transparent text-gray-900 placeholder-gray-400 text-base outline-none'
               />
               {search && (
-                <button onClick={() => setSearch('')} className='text-white/30 hover:text-white/70 transition-colors text-lg leading-none'>✕</button>
+                <button onClick={() => setSearch('')} className='text-gray-500 hover:text-gray-700 transition-colors text-lg leading-none'>✕</button>
               )}
               <button
                 onClick={() => setShowSearch(false)}
-                className='ml-2 text-white/30 hover:text-[#c9a84c] transition-colors text-xs tracking-widest uppercase'
+                className='ml-2 text-gray-500 hover:text-[#0d6b9f] transition-colors text-xs tracking-widest uppercase'
               >
                 Close
               </button>
@@ -93,7 +93,7 @@ const SearchBar = () => {
                     <button
                       key={item._id}
                       onClick={() => handleSelect(item._id)}
-                      className='w-full flex items-center gap-4 px-3 py-2.5 rounded-xl hover:bg-[#c9a84c]/5 hover:border-[#c9a84c]/20 border border-transparent transition-all duration-200 text-left group'
+                      className='w-full flex items-center gap-4 px-3 py-2.5 rounded-xl hover:bg-[#0d6b9f]/5 hover:border-[#0d6b9f]/20 border border-transparent transition-all duration-200 text-left group'
                     >
                       <img
                         src={Array.isArray(item.image) ? item.image[0] : item.image}
@@ -104,13 +104,13 @@ const SearchBar = () => {
                         <p className='text-white/80 text-sm truncate group-hover:text-white transition-colors'>{item.name}</p>
                         <p className='text-white/30 text-xs'>{item.category?.name || item.category || ''}</p>
                       </div>
-                      <p className='gold-text text-sm font-semibold flex-shrink-0'>{currency}{item.price}</p>
+                      <p className='teal-text text-sm font-semibold flex-shrink-0'>{currency}{item.price}</p>
                     </button>
                   ))}
 
                   <button
                     onClick={handleViewAll}
-                    className='w-full text-center text-[#c9a84c] text-xs tracking-widest uppercase py-3 hover:text-[#f0d080] transition-colors border-t border-[#c9a84c]/10 mt-2'
+                    className='w-full text-center text-[#0d6b9f] text-xs tracking-widest uppercase py-3 hover:text-[#1e8bc3] transition-colors border-t border-[#0d6b9f]/10 mt-2'
                   >
                     View all results →
                   </button>
@@ -120,9 +120,9 @@ const SearchBar = () => {
               {search.trim() && results.length === 0 && (
                 <motion.p
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  className='max-w-2xl mx-auto mt-4 text-white/30 text-sm text-center py-4'
+                  className='max-w-2xl mx-auto mt-4 text-gray-600 text-sm text-center py-4'
                 >
-                  No products found for "<span className='text-white/50'>{search}</span>"
+                  No products found for "<span className='text-gray-700'>{search}</span>"
                 </motion.p>
               )}
             </AnimatePresence>

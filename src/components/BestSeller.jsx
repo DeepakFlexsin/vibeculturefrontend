@@ -15,9 +15,8 @@ const BestSeller = () => {
   if (!bestSeller.length) return null
 
   return (
-    <section className='py-20 px-4 sm:px-6 bg-[#12121a] relative overflow-hidden'>
-      {/* Gold line top */}
-      <div className='absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#c9a84c]/30 to-transparent' />
+    <section className='py-20 px-4 sm:px-6 bg-white relative overflow-hidden'>
+      <div className='absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gray-200 to-transparent' />
 
       {/* Background pattern */}
       <div className='absolute inset-0 stripe-bg pointer-events-none opacity-50' />
@@ -30,7 +29,7 @@ const BestSeller = () => {
           className='inline-block text-4xl mb-4'>🔥</motion.div>
 
         <Title text1='BEST' text2='SELLERS' />
-        <p className='text-white/40 text-sm mt-3 font-light'>Most loved by our customers</p>
+        <p className='text-gray-600 text-sm mt-3 font-light'>Most loved by our customers</p>
       </motion.div>
 
       <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-8 max-w-7xl mx-auto relative z-10'>
@@ -42,8 +41,8 @@ const BestSeller = () => {
         ))}
       </div>
 
-      {/* Bottom gold line */}
-      <div className='absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#c9a84c]/30 to-transparent' />
+      {/* Bottom line */}
+      <div className='absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gray-200 to-transparent' />
     </section>
   )
 }

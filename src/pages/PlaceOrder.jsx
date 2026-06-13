@@ -7,7 +7,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { motion } from 'framer-motion'
 
-const inputCls = 'w-full bg-white/5 border border-[#c9a84c]/25 rounded-xl py-3 px-4 text-white text-base placeholder-white/50 focus:outline-none focus:border-[#c9a84c]/70 focus:ring-1 focus:ring-[#c9a84c]/30 transition-all duration-300'
+const inputCls = 'w-full bg-gray-50 border border-[#0d6b9f]/25 rounded-xl py-3 px-4 text-gray-900 text-base placeholder-gray-400 focus:outline-none focus:border-[#0d6b9f]/70 focus:ring-1 focus:ring-[#0d6b9f]/30 transition-all duration-300'
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState('razorpay') 
@@ -85,9 +85,9 @@ const PlaceOrder = () => {
   }
 
   return (
-    <div className='min-h-screen bg-[#0a0a0f] pt-6 pb-20 px-4 sm:px-6'>
+    <div className='min-h-screen bg-[#f8f9fa] pt-6 pb-20 px-4 sm:px-6'>
       <div className='max-w-6xl mx-auto'>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className='py-10 border-b border-[#c9a84c]/10 mb-10'>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className='py-10 border-b border-[#0d6b9f]/10 mb-10'>
           <Title text1='SECURE' text2='CHECKOUT' />
         </motion.div>
 
@@ -96,10 +96,10 @@ const PlaceOrder = () => {
 
             {/* Left — Delivery */}
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className='flex-1 xl:max-w-[500px]'>
-              <div className='glass rounded-2xl p-6 border border-[#c9a84c]/15'>
+              <div className='glass rounded-2xl p-6 border border-[#0d6b9f]/15 bg-white'>
                 <div className='flex items-center gap-3 mb-6'>
                   <span className='w-7 h-7 btn-gold rounded-full flex items-center justify-center text-xs font-black'>1</span>
-                  <h3 className='text-white font-semibold tracking-wider text-sm uppercase'>Delivery Information</h3>
+                  <h3 className='text-gray-900 font-semibold tracking-wider text-sm uppercase'>Delivery Information</h3>
                 </div>
                 <div className='space-y-3'>
                   <div className='flex gap-3'>
@@ -125,24 +125,24 @@ const PlaceOrder = () => {
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className='w-full xl:max-w-md space-y-4'>
 
               {/* Order Summary */}
-              <div className='glass rounded-2xl p-6 border border-[#c9a84c]/15'>
+              <div className='glass rounded-2xl p-6 border border-[#0d6b9f]/15 bg-white'>
                 <div className='flex items-center gap-3 mb-5'>
                   <span className='w-7 h-7 btn-gold rounded-full flex items-center justify-center text-xs font-black'>2</span>
-                  <h3 className='text-white font-semibold tracking-wider text-sm uppercase'>Order Summary</h3>
+                  <h3 className='text-gray-900 font-semibold tracking-wider text-sm uppercase'>Order Summary</h3>
                 </div>
                 <CartTotal />
               </div>
 
               {/* Payment */}
-              <div className='glass rounded-2xl p-6 border border-[#c9a84c]/15'>
+              <div className='glass rounded-2xl p-6 border border-[#0d6b9f]/15 bg-white'>
                 <div className='flex items-center gap-3 mb-5'>
                   <span className='w-7 h-7 btn-gold rounded-full flex items-center justify-center text-xs font-black'>3</span>
-                  <h3 className='text-white font-semibold tracking-wider text-sm uppercase'>Payment Method</h3>
+                  <h3 className='text-gray-900 font-semibold tracking-wider text-sm uppercase'>Payment Method</h3>
                 </div>
 
-                <div className='flex items-center gap-3 p-4 rounded-xl border-2 border-[#c9a84c]/60 bg-[#c9a84c]/5'>
-                  <div className='w-4 h-4 rounded-full border-2 border-[#c9a84c] flex items-center justify-center flex-shrink-0'>
-                    <div className='w-2 h-2 bg-[#c9a84c] rounded-full' />
+                <div className='flex items-center gap-3 p-4 rounded-xl border-2 border-[#0d6b9f]/60 bg-[#0d6b9f]/5'>
+                  <div className='w-4 h-4 rounded-full border-2 border-[#0d6b9f] flex items-center justify-center flex-shrink-0'>
+                    <div className='w-2 h-2 bg-[#0d6b9f] rounded-full' />
                   </div>
                   <img src={assets.razorpay_logo} className='h-5 brightness-0 invert opacity-90' alt='razorpay' />
                 </div>
@@ -152,7 +152,7 @@ const PlaceOrder = () => {
                   Place Order ✦
                 </motion.button>
 
-                <div className='flex items-center justify-center gap-4 mt-4 text-[10px] text-white/50 tracking-wider'>
+                <div className='flex items-center justify-center gap-4 mt-4 text-[10px] text-gray-600 tracking-wider'>
                   <span>🔒 SECURE</span><span>•</span><span>📦 FAST</span><span>•</span><span>↩️ EASY RETURNS</span>
                 </div>
               </div>

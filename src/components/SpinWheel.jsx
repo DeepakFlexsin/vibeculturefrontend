@@ -2,14 +2,14 @@ import React, { useState, useRef } from 'react'
 import { motion, useAnimation } from 'framer-motion'
 
 const SEGMENTS = [
-  { label: '10% OFF', color: '#c9a84c', textColor: '#0a0a0f' },
-  { label: 'FREE SHIP', color: '#1a1a28', textColor: '#c9a84c' },
-  { label: '5% OFF', color: '#c9a84c', textColor: '#0a0a0f' },
-  { label: 'TRY AGAIN', color: '#12121a', textColor: '#ffffff66' },
-  { label: '20% OFF', color: '#f0d080', textColor: '#0a0a0f' },
-  { label: 'FREE NUTS', color: '#1a1a28', textColor: '#c9a84c' },
-  { label: '15% OFF', color: '#c9a84c', textColor: '#0a0a0f' },
-  { label: 'MYSTERY', color: '#0a0a0f', textColor: '#f0d080' },
+  { label: '10% OFF', color: '#0d6b9f', textColor: '#ffffff' },
+  { label: 'FREE SHIP', color: '#e8eef2', textColor: '#0d6b9f' },
+  { label: '5% OFF', color: '#0d6b9f', textColor: '#ffffff' },
+  { label: 'TRY AGAIN', color: '#f8f9fa', textColor: '#0d6b9f' },
+  { label: '20% OFF', color: '#1e8bc3', textColor: '#ffffff' },
+  { label: 'FREE TEES', color: '#e8eef2', textColor: '#0d6b9f' },
+  { label: '15% OFF', color: '#0d6b9f', textColor: '#ffffff' },
+  { label: 'MYSTERY', color: '#f8f9fa', textColor: '#1e8bc3' },
 ]
 
 const TOTAL = SEGMENTS.length
@@ -56,15 +56,15 @@ const SpinWheel = () => {
   }
 
   return (
-    <section className='py-20 px-4 sm:px-6 bg-[#0a0a0f] relative overflow-hidden'>
+    <section className='py-20 px-4 sm:px-6 bg-white relative overflow-hidden'>
       {/* bg glow */}
       <div className='absolute inset-0 pointer-events-none'
-        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(201,168,76,0.07) 0%, transparent 70%)' }} />
+        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(13,107,159,0.07) 0%, transparent 70%)' }} />
 
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
         className='max-w-4xl mx-auto text-center'>
 
-        <div className='inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-6 border border-[#c9a84c]/20'>
+        <div className='inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-6 border border-[#0d6b9f]/20'>
           <span className='text-[#c9a84c] text-xs tracking-widest uppercase'>🎰 Daily Reward</span>
         </div>
 
@@ -78,21 +78,21 @@ const SpinWheel = () => {
           <div className='relative flex-shrink-0'>
             {/* Pointer */}
             <div className='absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 z-20'>
-              <div className='w-0 h-0 border-l-[10px] border-r-[10px] border-b-[22px] border-l-transparent border-r-transparent border-b-[#c9a84c]
-                drop-shadow-[0_0_8px_rgba(201,168,76,0.8)]' />
+              <div className='w-0 h-0 border-l-[10px] border-r-[10px] border-b-[22px] border-l-transparent border-r-transparent border-b-[#0d6b9f]
+                drop-shadow-[0_0_8px_rgba(13,107,159,0.8)]' />
             </div>
 
             {/* Outer ring glow */}
-            <div className='absolute inset-0 rounded-full gold-glow opacity-60 pointer-events-none' style={{ borderRadius: '50%' }} />
+            <div className='absolute inset-0 rounded-full teal-glow opacity-60 pointer-events-none' style={{ borderRadius: '50%' }} />
 
             <motion.svg animate={controls} width='300' height='300' viewBox='0 0 300 300'
               className='rounded-full cursor-pointer drop-shadow-2xl' onClick={spin}
-              style={{ filter: 'drop-shadow(0 0 20px rgba(201,168,76,0.3))' }}>
+              style={{ filter: 'drop-shadow(0 0 20px rgba(13,107,159,0.3))' }}>
               {SEGMENTS.map((seg, i) => {
                 const mid = i * ARC - Math.PI / 2 + ARC / 2
                 return (
                   <g key={i}>
-                    <path d={segmentPath(i)} fill={seg.color} stroke='rgba(201,168,76,0.3)' strokeWidth='1' />
+                    <path d={segmentPath(i)} fill={seg.color} stroke='rgba(13,107,159,0.3)' strokeWidth='1' />
                     <text
                       x={CX + (R * 0.65) * Math.cos(mid)}
                       y={CY + (R * 0.65) * Math.sin(mid)}
@@ -106,8 +106,8 @@ const SpinWheel = () => {
                 )
               })}
               {/* Center circle */}
-              <circle cx={CX} cy={CY} r='22' fill='#0a0a0f' stroke='#c9a84c' strokeWidth='2' />
-              <text x={CX} y={CY} textAnchor='middle' dominantBaseline='middle' fill='#c9a84c' fontSize='16'>✦</text>
+              <circle cx={CX} cy={CY} r='22' fill='white' stroke='#0d6b9f' strokeWidth='2' />
+              <text x={CX} y={CY} textAnchor='middle' dominantBaseline='middle' fill='#0d6b9f' fontSize='16'>✦</text>
             </motion.svg>
           </div>
 
@@ -115,17 +115,17 @@ const SpinWheel = () => {
           <div className='flex flex-col items-center lg:items-start gap-6 max-w-xs'>
             {result ? (
               <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-                className='glass rounded-2xl p-6 border border-[#c9a84c]/40 text-center w-full'>
+                className='glass rounded-2xl p-6 border border-[#0d6b9f]/40 text-center w-full'>
                 <div className='text-4xl mb-3'>🎉</div>
-                <p className='text-white/50 text-xs tracking-widest uppercase mb-1'>You won</p>
-                <p className='gold-text font-bold text-2xl font-serif'>{result.label}</p>
-                <p className='text-white/40 text-xs mt-3'>Use code <span className='text-[#c9a84c] font-mono'>SPIN{result.label.replace(/\s/g,'').toUpperCase()}</span> at checkout</p>
+                <p className='text-gray-500 text-xs tracking-widest uppercase mb-1'>You won</p>
+                <p className='teal-text font-bold text-2xl font-serif'>{result.label}</p>
+                <p className='text-gray-600 text-xs mt-3'>Use code <span className='text-[#0d6b9f] font-mono'>SPIN{result.label.replace(/\s/g,'').toUpperCase()}</span> at checkout</p>
               </motion.div>
             ) : (
-              <div className='glass rounded-2xl p-6 border border-[#c9a84c]/15 text-center w-full'>
+              <div className='glass rounded-2xl p-6 border border-[#0d6b9f]/15 text-center w-full'>
                 <div className='text-4xl mb-3'>🎰</div>
-                <p className='text-white/60 text-sm'>Click the wheel or the button to spin!</p>
-                <p className='text-white/30 text-xs mt-2'>Win discounts up to 20% off</p>
+                <p className='text-gray-700 text-sm'>Click the wheel or the button to spin!</p>
+                <p className='text-gray-500 text-xs mt-2'>Win discounts up to 20% off</p>
               </div>
             )}
 
@@ -133,8 +133,8 @@ const SpinWheel = () => {
               whileTap={{ scale: 0.96 }}
               className={`w-full py-4 rounded-2xl text-sm tracking-widest uppercase font-bold transition-all duration-300 ${
                 spinsLeft > 0 && !spinning
-                  ? 'btn-gold'
-                  : 'bg-white/5 text-white/20 cursor-not-allowed border border-white/10'
+                  ? 'btn-teal'
+                  : 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
               }`}>
               {spinning ? '🌀 Spinning...' : spinsLeft > 0 ? '🎰 Spin the Wheel!' : '✓ Spin Used Today'}
             </motion.button>
@@ -143,7 +143,7 @@ const SpinWheel = () => {
               {[['🎁', 'Win Discounts'], ['🔄', '1 Spin/Day'], ['⚡', 'Instant Reward']].map(([icon, txt]) => (
                 <div key={txt}>
                   <div className='text-xl mb-1'>{icon}</div>
-                  <p className='text-white/30 text-[10px] tracking-wider uppercase'>{txt}</p>
+                  <p className='text-gray-600 text-[10px] tracking-wider uppercase'>{txt}</p>
                 </div>
               ))}
             </div>

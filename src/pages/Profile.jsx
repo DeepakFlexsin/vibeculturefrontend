@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { motion } from 'framer-motion'
 import Title from '../components/Title'
 
-const inputCls = 'w-full bg-white/5 border border-[#c9a84c]/25 rounded-xl py-3 px-4 text-white text-base placeholder-white/40 focus:outline-none focus:border-[#c9a84c]/70 focus:ring-1 focus:ring-[#c9a84c]/30 transition-all duration-300'
+const inputCls = 'w-full bg-gray-50 border border-[#0d6b9f]/25 rounded-xl py-3 px-4 text-gray-900 text-base placeholder-gray-400 focus:outline-none focus:border-[#0d6b9f]/70 focus:ring-1 focus:ring-[#0d6b9f]/30 transition-all duration-300'
 
 const Profile = () => {
   const { token, navigate, backendUrl } = useContext(ShopContext)
@@ -41,38 +41,38 @@ const Profile = () => {
   }
 
   if (!user) return (
-    <div className='min-h-screen bg-[#0a0a0f] flex items-center justify-center'>
-      <div className='w-8 h-8 border-2 border-[#c9a84c]/30 border-t-[#c9a84c] rounded-full animate-spin' />
+    <div className='min-h-screen bg-[#f8f9fa] flex items-center justify-center'>
+      <div className='w-8 h-8 border-2 border-[#0d6b9f]/30 border-t-[#0d6b9f] rounded-full animate-spin' />
     </div>
   )
 
   return (
-    <div className='min-h-screen bg-[#0a0a0f] pt-6 pb-20 px-4 sm:px-6'>
+    <div className='min-h-screen bg-[#f8f9fa] pt-6 pb-20 px-4 sm:px-6'>
       <div className='max-w-3xl mx-auto'>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className='py-10 border-b border-[#c9a84c]/10 mb-10'>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className='py-10 border-b border-[#0d6b9f]/10 mb-10'>
           <Title text1='MY' text2='PROFILE' />
         </motion.div>
 
         {/* User Info Card */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-          className='glass rounded-2xl p-6 border border-[#c9a84c]/15 mb-6'>
+          className='glass rounded-2xl p-6 border border-[#0d6b9f]/15 mb-6 bg-white'>
           <div className='flex items-center gap-5'>
-            <div className='w-16 h-16 btn-gold rounded-2xl flex items-center justify-center text-[#0a0a0f] font-black text-2xl flex-shrink-0'>
+            <div className='w-16 h-16 btn-gold rounded-2xl flex items-center justify-center text-[#f8f9fa] font-black text-2xl flex-shrink-0'>
               {user.name.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h2 className='text-white font-semibold text-xl'>{user.name}</h2>
-              <p className='text-white/40 text-sm mt-0.5'>{user.email}</p>
+              <h2 className='text-gray-900 font-semibold text-xl'>{user.name}</h2>
+              <p className='text-gray-600 text-sm mt-0.5'>{user.email}</p>
             </div>
           </div>
         </motion.div>
 
         {/* Address Form */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          className='glass rounded-2xl p-6 border border-[#c9a84c]/15'>
+          className='glass rounded-2xl p-6 border border-[#0d6b9f]/15 bg-white'>
           <div className='flex items-center gap-3 mb-6'>
             <span className='w-7 h-7 btn-gold rounded-full flex items-center justify-center text-xs font-black'>📍</span>
-            <h3 className='text-white font-semibold tracking-wider text-sm uppercase'>Saved Address</h3>
+            <h3 className='text-gray-900 font-semibold tracking-wider text-sm uppercase'>Saved Address</h3>
           </div>
 
           <form onSubmit={onSave} className='space-y-3'>
