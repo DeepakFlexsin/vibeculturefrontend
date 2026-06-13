@@ -8,8 +8,8 @@ import { ShopContext } from '../context/ShopContext'
 import axios from 'axios'
 
 const stats = [
-  { value: '50K+', label: 'Happy Customers' },
-  { value: '500+', label: 'Products' },
+  { value: '100+', label: 'Happy Customers' },
+  { value: '10+', label: 'Products' },
   { value: '240 GSM', label: 'Premium Fabric' },
   { value: '99%', label: 'Satisfaction' },
 ]

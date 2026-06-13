@@ -12,29 +12,6 @@ const PARTICLES = Array.from({ length: 12 }, (_, i) => ({
   duration: Math.random() * 4 + 3,
 }))
 
-const CATEGORIES = [
-  {
-    label: 'T-Shirts', icon: '👕', color: '#111111',
-    items: ['Premium Cotton', 'Oversized Fit', 'Crew Neck', 'Graphic Tees'],
-    tag: 'Best Seller', desc: 'Premium 240 GSM tees for everyday wear'
-  },
-  {
-    label: 'Tank Tops', icon: '💪', color: '#222222',
-    items: ['Gym Stringer', 'Classic Racer', 'Muscle Fit', 'Breathable'],
-    tag: 'New Arrivals', desc: 'Breathable tank tops for active lifestyle'
-  },
-  {
-    label: 'Gym Wear', icon: '🏋️', color: '#111111',
-    items: ['Sleeveless Tees', 'Muscle Fit', 'Performance', 'Pro Series'],
-    tag: 'Hot Deal', desc: 'Sleeveless gym tees for max performance'
-  },
-  {
-    label: 'Jeans', icon: '👖', color: '#222222',
-    items: ['Slim Fit', 'Regular Fit', 'Stretch Denim', 'Premium Wash'],
-    tag: 'Trending', desc: 'Premium denim jeans for every occasion'
-  },
-]
-
 const BRAND_LETTERS = ['V', 'I', 'B', 'E', 'C', 'U', 'L', 'T', 'U', 'R', 'E']
 
 const HEADLINES = [
@@ -46,24 +23,40 @@ const HEADLINES = [
   { top: 'Upgrade Your', bold: 'Wardrobe.', sub: 'Comfort Meets Style.', badge: '🎨 New Collections' },
 ]
 
+// fallback taglines per category name keyword
+const getCatMeta = (name = '') => {
+  const n = name.toLowerCase()
+  if (n.includes('t-shirt') || n.includes('tshirt') || n.includes('tee'))
+    return { emoji: '👕', tag: 'Best Seller', line: '240 GSM premium cotton' }
+  if (n.includes('tank') || n.includes('stringer'))
+    return { emoji: '💪', tag: 'Gym Pick', line: 'Breathable & muscle-fit' }
+  if (n.includes('gym') || n.includes('workout') || n.includes('sport'))
+    return { emoji: '🏋️', tag: 'Performance', line: 'Built for every rep' }
+  if (n.includes('jean') || n.includes('denim'))
+    return { emoji: '👖', tag: 'Trending', line: 'Stretch denim, sharp fit' }
+  if (n.includes('lower') || n.includes('track') || n.includes('jogger'))
+    return { emoji: '🩳', tag: 'New Drop', line: 'All-day comfort wear' }
+  if (n.includes('combo') || n.includes('set'))
+    return { emoji: '🎁', tag: 'Best Value', line: 'Save more, style more' }
+  return { emoji: '✦', tag: 'Premium', line: 'VibeCulture collection' }
+}
+
 const Hero = () => {
   const [bannerData, setBannerData] = useState(null)
+  const [categories, setCategories] = useState([])
   const { backendUrl, navigate } = useContext(ShopContext)
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '25%'])
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
-
-  const [activeCat, setActiveCat] = useState(0)
-  const [activeItem, setActiveItem] = useState(0)
   const [headlineIdx, setHeadlineIdx] = useState(0)
-  const [liveCount, setLiveCount] = useState(Math.floor(Math.random() * 80) + 120)
-  const [soldPct, setSoldPct] = useState(Math.floor(Math.random() * 20) + 55)
-  const [pulseStep, setPulseStep] = useState(0)
 
   useEffect(() => {
     axios.get(backendUrl + '/api/banner/get')
       .then(r => r.data.success && setBannerData(r.data.data))
+      .catch(() => {})
+    axios.get(backendUrl + '/api/category/list')
+      .then(r => r.data.success && setCategories(r.data.categories))
       .catch(() => {})
   }, [])
 
@@ -71,25 +64,6 @@ const Hero = () => {
     const t = setInterval(() => setHeadlineIdx(i => (i + 1) % HEADLINES.length), 3500)
     return () => clearInterval(t)
   }, [])
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setLiveCount(n => n + Math.floor(Math.random() * 3) - 1)
-      setSoldPct(p => Math.min(p + (Math.random() > 0.7 ? 1 : 0), 94))
-      setPulseStep(s => (s + 1) % 3)
-    }, 2800)
-    return () => clearInterval(t)
-  }, [])
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setActiveCat(c => (c + 1) % CATEGORIES.length)
-      setActiveItem(0)
-    }, 4000)
-    return () => clearInterval(t)
-  }, [])
-
-  const cat = CATEGORIES[activeCat]
 
   return (
     <>
@@ -122,7 +96,7 @@ const Hero = () => {
         <motion.div style={{ y, opacity }} className='relative z-10 flex-1 flex items-center w-full px-6 sm:px-12 lg:px-20 py-16'>
           <div className='max-w-7xl mx-auto w-full'>
 
-            {/* Brand name animated */}
+            {/* Brand name */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}
               className='flex justify-center lg:justify-start gap-0.5 sm:gap-1 mb-6'>
               {BRAND_LETTERS.map((letter, i) => (
@@ -200,7 +174,7 @@ const Hero = () => {
                 {/* Stats */}
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}
                   className='flex gap-12 justify-center lg:justify-start'>
-                  {[['500+', 'Products'], ['50K+', 'Happy Customers'], ['4.8★', 'Rating']].map(([num, label]) => (
+                  {[['10+', 'Products'], ['100+', 'Happy Customers'], ['4.8★', 'Rating']].map(([num, label]) => (
                     <div key={label} className='text-center lg:text-left'>
                       <div className='font-serif text-3xl font-bold text-gray-900'>{num}</div>
                       <div className='text-gray-400 text-[10px] tracking-widest uppercase mt-1'>{label}</div>
@@ -209,189 +183,101 @@ const Hero = () => {
                 </motion.div>
               </div>
 
-              {/* Right column — Product Explorer */}
+              {/* Right column — Premium Category Grid */}
               <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6, duration: 0.8 }}
-                className='w-full lg:w-[420px] flex-shrink-0'>
+                className='w-full lg:w-[400px] flex-shrink-0'>
 
-                <div className='bg-white rounded-2xl border border-gray-200 overflow-hidden'
-                  style={{ boxShadow: '0 10px 40px rgba(0,0,0,0.08)' }}>
+                {categories.length > 0 ? (
+                  <div className='grid grid-cols-2 gap-3'>
+                    {categories.slice(0, 4).map((cat, i) => {
+                      const meta = getCatMeta(cat.name)
+                      return (
+                        <motion.div key={cat._id}
+                          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.7 + i * 0.1 }}
+                          whileHover={{ y: -4 }}
+                          onClick={() => { navigate(`/collection?category=${cat._id}`); window.scrollTo(0, 0) }}
+                          className='relative group cursor-pointer rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 bg-white'>
 
-                  {/* Premium Drop Header */}
-                  <div className='relative overflow-hidden rounded-t-2xl bg-gray-900 px-5 pt-4 pb-4'>
-                    {/* subtle grid pattern */}
-                    <div className='absolute inset-0 opacity-[0.04]'
-                      style={{ backgroundImage: 'repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 1px,transparent 20px),repeating-linear-gradient(90deg,#fff 0,#fff 1px,transparent 1px,transparent 20px)' }} />
-
-                    {/* Top row — live pill + discount */}
-                    <div className='flex items-center justify-between mb-3'>
-                      <div className='flex items-center gap-2'>
-                        <span className='relative flex w-2 h-2'>
-                          <span className='absolute inset-0 bg-green-400 rounded-full animate-ping opacity-80' />
-                          <span className='relative block w-2 h-2 bg-green-400 rounded-full' />
-                        </span>
-                        <AnimatePresence mode='wait'>
-                          <motion.span key={liveCount}
-                            initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 4 }}
-                            className='text-green-400 text-[10px] font-bold tracking-widest uppercase'>
-                            {liveCount} people shopping now
-                          </motion.span>
-                        </AnimatePresence>
-                      </div>
-                      <span className='bg-white/10 text-white text-[10px] font-black px-2.5 py-1 rounded-full tracking-wider border border-white/20'>UP TO 30% OFF</span>
-                    </div>
-
-                    {/* GSM Quality Bar */}
-                    <div className='mb-3'>
-                      <div className='flex items-center justify-between mb-1'>
-                        <span className='text-white/60 text-[9px] tracking-[0.2em] uppercase'>240 GSM Fabric Quality</span>
-                        <span className='text-white text-[10px] font-bold'>Premium ✦</span>
-                      </div>
-                      <div className='h-1.5 bg-white/10 rounded-full overflow-hidden'>
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: '92%' }}
-                          transition={{ duration: 1.5, ease: 'easeOut', delay: 0.8 }}
-                          className='h-full rounded-full'
-                          style={{ background: 'linear-gradient(90deg, #6ee7b7, #34d399, #10b981)' }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Selling fast bar */}
-                    <div className='mb-3'>
-                      <div className='flex items-center justify-between mb-1'>
-                        <span className='text-white/60 text-[9px] tracking-[0.2em] uppercase'>Selling Fast</span>
-                        <AnimatePresence mode='wait'>
-                          <motion.span key={soldPct}
-                            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                            className='text-amber-400 text-[10px] font-bold'>{soldPct}% claimed</motion.span>
-                        </AnimatePresence>
-                      </div>
-                      <div className='h-1.5 bg-white/10 rounded-full overflow-hidden'>
-                        <motion.div
-                          animate={{ width: `${soldPct}%` }}
-                          transition={{ duration: 1, ease: 'easeOut' }}
-                          className='h-full rounded-full'
-                          style={{ background: 'linear-gradient(90deg, #fbbf24, #f59e0b, #d97706)' }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Style confidence meter */}
-                    <div className='flex items-center gap-3'>
-                      <span className='text-white/50 text-[9px] tracking-widest uppercase whitespace-nowrap'>Style Score</span>
-                      <div className='flex gap-1 flex-1'>
-                        {[...Array(5)].map((_, i) => (
-                          <motion.div key={i}
-                            animate={{ scaleY: pulseStep === i % 3 ? 1.4 : 1, opacity: pulseStep === i % 3 ? 1 : 0.5 }}
-                            transition={{ duration: 0.4 }}
-                            className='flex-1 h-3 rounded-sm'
-                            style={{ background: i < 4 ? '#ffffff' : '#ffffff33' }}
-                          />
-                        ))}
-                      </div>
-                      <span className='text-white text-[10px] font-black'>9.4/10</span>
-                    </div>
-                  </div>
-
-                  {/* Category tabs */}
-                  <div className='flex gap-1 px-4 pt-4'>
-                    {CATEGORIES.map((c, i) => (
-                      <motion.button key={i} whileTap={{ scale: 0.95 }}
-                        onClick={() => { setActiveCat(i); setActiveItem(0) }}
-                        className='flex-1 flex flex-col items-center gap-1 py-2 rounded-lg text-[10px] tracking-wider uppercase transition-all duration-300 border'
-                        style={{
-                          background: activeCat === i ? '#111111' : '#ffffff',
-                          borderColor: activeCat === i ? '#111111' : '#e5e7eb',
-                          color: activeCat === i ? '#ffffff' : '#9ca3af',
-                        }}>
-                        <span className='text-base'>{c.icon}</span>
-                        {c.label}
-                      </motion.button>
-                    ))}
-                  </div>
-
-                  {/* Active category content */}
-                  <AnimatePresence mode='wait'>
-                    <motion.div key={activeCat}
-                      initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }}
-                      transition={{ duration: 0.3 }}
-                      className='px-5 py-4'>
-
-                      <div className='flex items-center gap-2 mb-3'>
-                        <span className='text-[10px] px-2.5 py-1 rounded-full font-bold tracking-wider bg-gray-100 text-gray-700 border border-gray-200'>
-                          ✦ {cat.tag}
-                        </span>
-                        <span className='text-gray-400 text-[10px]'>{cat.desc}</span>
-                      </div>
-
-                      <div className='grid grid-cols-2 gap-2 mb-4'>
-                        {cat.items.map((item, i) => (
-                          <motion.button key={i} whileTap={{ scale: 0.97 }}
-                            onClick={() => setActiveItem(i)}
-                            className='p-3 rounded-lg text-left transition-all duration-200 border'
-                            style={{
-                              background: activeItem === i ? '#111111' : '#ffffff',
-                              borderColor: activeItem === i ? '#111111' : '#e5e7eb',
-                            }}>
-                            <div className='text-xl mb-1'>{cat.icon}</div>
-                            <div className={`text-xs font-medium leading-tight ${activeItem === i ? 'text-white' : 'text-gray-800'}`}>
-                              {item}
+                          {/* Image or gradient bg */}
+                          {cat.image ? (
+                            <div className='relative h-32 overflow-hidden'>
+                              <img src={cat.image} alt={cat.name}
+                                className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-500' />
+                              <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent' />
+                              {/* Tag badge */}
+                              <span className='absolute top-2.5 left-2.5 text-[9px] font-black tracking-wider uppercase bg-white text-gray-900 px-2 py-0.5 rounded-full'>
+                                {meta.tag}
+                              </span>
+                              {/* Name on image */}
+                              <div className='absolute bottom-2.5 left-3 right-3'>
+                                <p className='text-white font-bold text-sm leading-tight'>{cat.name}</p>
+                                <p className='text-white/70 text-[10px] mt-0.5'>{meta.line}</p>
+                              </div>
                             </div>
-                            {activeItem === i && (
-                              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                                className='text-[9px] mt-1 font-bold text-gray-300'>
-                                ✓ Selected
-                              </motion.div>
-                            )}
-                          </motion.button>
-                        ))}
-                      </div>
+                          ) : (
+                            <div className='h-32 flex flex-col items-center justify-center bg-gray-50 group-hover:bg-gray-100 transition-colors duration-300 relative'>
+                              <span className='absolute top-2.5 left-2.5 text-[9px] font-black tracking-wider uppercase bg-gray-900 text-white px-2 py-0.5 rounded-full'>
+                                {meta.tag}
+                              </span>
+                              <span className='text-4xl mb-1'>{meta.emoji}</span>
+                              <p className='text-gray-900 font-bold text-sm'>{cat.name}</p>
+                              <p className='text-gray-400 text-[10px] mt-0.5 px-2 text-center'>{meta.line}</p>
+                            </div>
+                          )}
 
-                      <div className='flex items-center gap-2 p-3 rounded-lg border mb-3 bg-gray-50 border-gray-200'>
-                        <span className='text-lg'>{cat.icon}</span>
-                        <div className='flex-1 min-w-0'>
-                          <div className='text-xs font-semibold text-gray-900 truncate'>{cat.items[activeItem]}</div>
-                          <div className='text-[10px] text-gray-400'>VibeCulture Premium Quality</div>
-                        </div>
-                        <div className='text-[10px] font-black px-2 py-1 rounded-lg bg-red-50 text-red-600 border border-red-100'>30% OFF</div>
-                      </div>
+                          {/* Footer */}
+                          <div className='px-3 py-2.5 flex items-center justify-between'>
+                            <span className='text-gray-900 text-xs font-semibold'>Shop now</span>
+                            <motion.span
+                              animate={{ x: [0, 3, 0] }}
+                              transition={{ duration: 1.5, repeat: Infinity }}
+                              className='text-gray-400 text-sm'>→</motion.span>
+                          </div>
+                        </motion.div>
+                      )
+                    })}
 
-                      <div className='flex gap-2'>
-                        <motion.button whileTap={{ scale: 0.96 }}
-                          onClick={() => navigate('/collection')}
-                          className='flex-1 py-3 rounded-lg text-xs tracking-widest uppercase font-bold transition-all bg-gray-900 text-white hover:bg-black'>
-                          Shop Now ✦
-                        </motion.button>
-                        <motion.button whileTap={{ scale: 0.96 }}
-                          onClick={() => navigate('/collection')}
-                          className='px-4 py-3 rounded-lg border border-gray-200 text-xs tracking-wider uppercase transition-all text-gray-700 hover:bg-gray-50'>
-                          All →
-                        </motion.button>
+                    {/* View all card */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 1.1 }}
+                      whileHover={{ y: -4 }}
+                      onClick={() => navigate('/collection')}
+                      className='col-span-2 cursor-pointer rounded-2xl border border-gray-200 bg-gray-900 hover:bg-black transition-all duration-300 flex items-center justify-between px-5 py-4 group shadow-sm hover:shadow-lg'>
+                      <div>
+                        <p className='text-white font-bold text-sm tracking-wide'>View All Collections</p>
+                        <p className='text-gray-400 text-[11px] mt-0.5'>T-Shirts · Jeans · Tank Tops · Gym Wear</p>
                       </div>
+                      <motion.div
+                        animate={{ x: [0, 4, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                        className='w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white text-sm'>
+                        →
+                      </motion.div>
                     </motion.div>
-                  </AnimatePresence>
-
-                  <div className='px-6 pb-4 flex items-center justify-center gap-4 text-[10px] text-gray-400 tracking-wider uppercase'>
-                    {['Free Shipping', '7-Day Returns', 'Secure Pay'].map((t, i) => (
-                      <React.Fragment key={t}>
-                        {i > 0 && <span>•</span>}
-                        <span>{t}</span>
-                      </React.Fragment>
-                    ))}
                   </div>
-                </div>
+                ) : (
+                  /* fallback skeleton while loading */
+                  <div className='grid grid-cols-2 gap-3'>
+                    {[...Array(4)].map((_, i) => (
+                      <div key={i} className='rounded-2xl h-44 shimmer' />
+                    ))}
+                    <div className='col-span-2 rounded-2xl h-16 shimmer' />
+                  </div>
+                )}
 
+                {/* Banner image if available */}
                 {bannerData?.images?.[0] && (
-                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 }}
-                    className='mt-4 relative group rounded-xl overflow-hidden cursor-pointer'
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }}
+                    className='mt-3 relative group rounded-xl overflow-hidden cursor-pointer'
                     onClick={() => navigate('/collection')}>
                     <img src={bannerData.images[0]} alt='Collection'
-                      className='w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500' />
-                    <div className='absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent flex items-center px-5'>
+                      className='w-full h-28 object-cover group-hover:scale-105 transition-transform duration-500' />
+                    <div className='absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent flex items-center px-5'>
                       <div>
                         <p className='text-white text-xs font-bold tracking-widest uppercase'>Featured Drop</p>
-                        <p className='text-white/80 text-[10px] mt-0.5'>Shop the collection →</p>
+                        <p className='text-white/70 text-[10px] mt-0.5'>Shop the collection →</p>
                       </div>
                     </div>
                   </motion.div>
