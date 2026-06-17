@@ -77,6 +77,7 @@ const Product = () => {
 
   const currentPrice = selectedVariant ? selectedVariant.price : productData.price
 
+  const inStock = selectedVariant ? selectedVariant.quantity > 0 : productData.variants?.some(v => v.quantity > 0) ?? true
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -84,15 +85,33 @@ const Product = () => {
     image: productData.image,
     description: String(productData.description || '').replace(/<[^>]+>/g, '').slice(0, 300),
     sku: String(selectedVariant?.sku || productData._id),
+    mpn: String(selectedVariant?.sku || productData._id),
     brand: { '@type': 'Brand', name: 'VibeCulture' },
     offers: {
       '@type': 'Offer',
       price: String(currentPrice),
       priceCurrency: 'INR',
-      availability: (selectedVariant ? selectedVariant.quantity > 0 : productData.variants?.some(v => v.quantity > 0))
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/OutOfStock',
-      url: 'https://www.vibeculture.in/product/' + (productData.seo?.slug || productData._id)
+      availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      url: 'https://www.vibeculture.in/product/' + (productData.seo?.slug || productData._id),
+      seller: { '@type': 'Organization', name: 'VibeCulture' },
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingRate: { '@type': 'MonetaryAmount', value: '0', currency: 'INR' },
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
+          transitTime: { '@type': 'QuantitativeValue', minValue: 3, maxValue: 7, unitCode: 'DAY' }
+        },
+        shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'IN' }
+      },
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'IN',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 7,
+        returnMethod: 'https://schema.org/ReturnByMail',
+        returnFees: 'https://schema.org/FreeReturn'
+      }
     },
     aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.5', reviewCount: '122' }
   }
