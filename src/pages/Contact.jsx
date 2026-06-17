@@ -5,18 +5,18 @@ import NewsletterBox from '../components/NewsletterBox'
 
 const CONTACT_METHODS = [
   {
-    icon: '✉️', label: 'Email Us', value: 'support@vibeculture.in',
-    sub: 'We reply within 24 hours', action: 'mailto:support@vibeculture.in',
+    icon: '✉️', label: 'Email Us', value: 'support@krivante.store',
+    sub: 'We reply within 24 hours', action: 'mailto:support@krivante.store',
     color: 'from-gray-100 to-gray-50',
   },
   {
     icon: '📞', label: 'Call Us', value: '+91 1294044211',
-    sub: 'Mon – Sat, 10am – 7pm IST', action: 'tel:+911294044211',
+    sub: 'Mon – Sat, 10am – 7pm IST', action: 'tel:+917836827789',
     color: 'from-gray-100 to-gray-50',
   },
   {
     icon: '💬', label: 'WhatsApp', value: 'Chat with us',
-    sub: 'Instant replies on WhatsApp', action: 'https://wa.me/911294044211?text=Hi%20VibeCulture%2C%20I%20need%20help.',
+    sub: 'Instant replies on WhatsApp', action: 'https://wa.me/917836827789?text=Hi%20VibeCulture%2C%20I%20need%20help.',
     color: 'from-green-50 to-gray-50',
   },
   {
@@ -40,7 +40,7 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const mailto = `mailto:support@vibeculture.in?subject=${encodeURIComponent(form.subject || 'Contact from ' + form.name)}&body=${encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`)}`
+    const mailto = `mailto:support@krivante.store?subject=${encodeURIComponent(form.subject || 'Contact from ' + form.name)}&body=${encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`)}`
     window.location.href = mailto
     setSent(true)
   }
@@ -142,7 +142,7 @@ const Contact = () => {
                 </button>
 
                 <p className='text-gray-400 text-xs text-center'>
-                  Or email directly: <a href='mailto:support@vibeculture.in' className='text-gray-600 hover:text-gray-900 transition-colors'>support@vibeculture.in</a>
+                  Or email directly: <a href='mailto:support@krivante.store' className='text-gray-600 hover:text-gray-900 transition-colors'>support@krivante.store</a>
                 </p>
               </form>
             )}
@@ -172,7 +172,7 @@ const Contact = () => {
               ))}
             </div>
 
-            <a href='https://wa.me/911294044211?text=Hi%20VibeCulture%2C%20I%20need%20help%20with%20my%20order.'
+            <a href='https://wa.me/917836827789?text=Hi%20VibeCulture%2C%20I%20need%20help%20with%20my%20order.'
               target='_blank' rel='noreferrer'
               className='mt-8 flex items-center gap-4 bg-green-50 border border-green-200 hover:border-green-400 rounded-2xl p-5 transition-all duration-300 group'>
               <div className='w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition-transform'>💬</div>

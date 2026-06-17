@@ -66,7 +66,7 @@ const Footer = () => {
                 <span>📞</span> +91-1294044211
               </li>
               <li className='flex items-center gap-2 hover:text-gray-900 transition-colors cursor-pointer'>
-                <span>✉️</span> support@vibeculture.in
+                <span>✉️</span> support@krivante.store
               </li>
               <li className='flex items-center gap-2'>
                 <span>🕐</span> 24/7 Support
