@@ -161,6 +161,66 @@ a.active hr { display: block; }
 .marquee-track { animation: marquee 25s linear infinite; }
 .marquee-track:hover { animation-play-state: paused; }
 
+/* ── Review ticker ── */
+@keyframes review-ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.review-ticker-track { animation: review-ticker 40s linear infinite; }
+.review-ticker-track:hover { animation-play-state: paused; }
+
+/* ── Gold accent glow on hover ── */
+.accent-glow:hover {
+  box-shadow: 0 0 0 2px #e8c96d, 0 8px 30px rgba(232,201,109,0.25);
+}
+
+/* ── Cursor glow (desktop only) ── */
+@media (pointer: fine) {
+  .cursor-glow {
+    position: relative;
+  }
+  .cursor-glow::after {
+    content: '';
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(232,201,109,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+    z-index: 9999;
+  }
+}
+
+/* ── Page entrance animation ── */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter { animation: page-enter 0.45s ease forwards; }
+
+/* ── Gold shimmer text ── */
+.gold-shimmer {
+  background: linear-gradient(135deg, #b8922a 0%, #e8c96d 30%, #f0d88a 50%, #e8c96d 70%, #b8922a 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: teal-shine 3s linear infinite;
+}
+
+/* ── Accent pulse badge ── */
+@keyframes accent-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232,201,109,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(232,201,109,0); }
+}
+.accent-badge {
+  background: #e8c96d;
+  color: #111111;
+  animation: accent-pulse 2s infinite;
+}
+
 /* ── Reveal on scroll ── */
 @keyframes reveal-up {
   from { opacity: 0; transform: translateY(40px); }

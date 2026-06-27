@@ -34,13 +34,24 @@ const Footer = () => {
               Crafted with 240 GSM comfort for those who value quality and style.
             </p>
             <div className='flex gap-3'>
-              {[['📘', 'Facebook'], ['📸', 'Instagram'], ['🐦', 'Twitter'], ['▶️', 'YouTube']].map(([icon, label]) => (
-                <motion.a key={label} href='#' whileHover={{ scale: 1.1, y: -2 }}
+              {[
+                ['📘', 'Facebook', 'https://facebook.com/vibeculture'],
+                ['📸', 'Instagram', 'https://instagram.com/vibeculture'],
+                ['🐦', 'Twitter', 'https://twitter.com/vibeculture'],
+                ['▶️', 'YouTube', 'https://youtube.com/@vibeculture'],
+              ].map(([icon, label, href]) => (
+                <motion.a key={label} href={href} target='_blank' rel='noopener noreferrer' whileHover={{ scale: 1.1, y: -2 }}
                   className='w-9 h-9 bg-gray-50 rounded-full flex items-center justify-center border border-gray-200 hover:border-gray-400 transition-all duration-300 text-sm'>
                   {icon}
                 </motion.a>
               ))}
             </div>
+            <a href='https://instagram.com/vibeculture' target='_blank' rel='noopener noreferrer'
+              className='inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full border border-gray-200 hover:border-gray-400 transition-all duration-300 group'>
+              <span className='text-sm'>📸</span>
+              <span className='text-gray-500 text-xs group-hover:text-gray-900 transition-colors'>@vibeculture</span>
+              <span className='text-[10px] text-white bg-gray-900 px-2 py-0.5 rounded-full font-semibold'>Follow</span>
+            </a>
           </div>
 
           {/* Quick Links */}

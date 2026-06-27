@@ -82,7 +82,8 @@ const FlashSale = () => {
                   <img src={item.image?.[0]} alt={item.name}
                     className='w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500' />
                   {/* Discount badge */}
-                  <div className='absolute top-3 left-3 bg-gray-900 text-white text-xs font-black px-2 py-1 rounded-full'>
+                  <div className='absolute top-3 left-3 text-white text-xs font-black px-2 py-1 rounded-full'
+                    style={{ background: 'linear-gradient(135deg, #ff4444, #ff8800)' }}>
                     -{discount}%
                   </div>
                   {/* Flash icon */}
@@ -106,7 +107,8 @@ const FlashSale = () => {
                     <div className='h-1 bg-gray-200 rounded-full overflow-hidden'>
                       <motion.div initial={{ width: 0 }} whileInView={{ width: `${[72, 45, 88, 61][i]}%` }}
                         viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.1 }}
-                        className='h-full rounded-full bg-gradient-to-r from-gray-700 to-gray-500' />
+                        className='h-full rounded-full'
+                        style={{ background: 'linear-gradient(to right, #e8c96d, #ff8800)' }} />
                     </div>
                   </div>
                 </div>

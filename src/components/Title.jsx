@@ -6,7 +6,7 @@ const Title = ({ text1, text2 }) => {
       <div className='flex items-center gap-3'>
         <div className='w-8 h-[1px] bg-gradient-to-r from-transparent to-gray-400' />
         <p className='text-gray-500 tracking-[0.2em] text-sm uppercase font-light'>
-          {text1} <span className='font-bold text-gray-900'>{text2}</span>
+          {text1} <span className='font-bold text-gray-900 gold-shimmer'>{text2}</span>
         </p>
         <div className='w-8 h-[1px] bg-gradient-to-l from-transparent to-gray-400' />
       </div>

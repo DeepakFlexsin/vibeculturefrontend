@@ -161,7 +161,8 @@ const Hero = () => {
                   className='flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12'>
                   <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                     onClick={() => navigate('/collection')}
-                    className='px-10 py-4 rounded-lg text-sm tracking-widest uppercase font-bold bg-gray-900 text-white shadow-lg hover:shadow-xl hover:bg-black transition-all duration-300'>
+                    className='px-10 py-4 rounded-lg text-sm tracking-widest uppercase font-bold accent-glow transition-all duration-300'
+                    style={{ background: '#e8c96d', color: '#111111', boxShadow: '0 4px 20px rgba(232,201,109,0.4)' }}>
                     Shop Now ✦
                   </motion.button>
                   <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}

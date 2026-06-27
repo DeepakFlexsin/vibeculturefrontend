@@ -2,12 +2,37 @@ import React, { useContext, useState } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 const ProductItem = ({ id, image, name, price, bestseller }) => {
-  const { currency } = useContext(ShopContext)
+  const { currency, addToCart, products } = useContext(ShopContext)
   const [wishlist, setWishlist] = useState(false)
   const [imgLoaded, setImgLoaded] = useState(false)
   const [hovered, setHovered] = useState(false)
+  const [adding, setAdding] = useState(false)
+
+  const handleQuickAdd = async (e) => {
+    e.preventDefault()
+    const product = products.find(p => p._id === id)
+    if (!product) return
+    // if it has variants, navigate to product page instead
+    if (product.variants?.length > 0) {
+      window.scrollTo({ top: 0, behavior: 'instant' })
+      return
+    }
+    setAdding(true)
+    addToCart(id, '0')
+    toast.success(
+      <div className='flex items-center gap-3'>
+        <img src={image[0]} alt='' className='w-10 h-10 object-cover rounded-lg' />
+        <div>
+          <p className='font-semibold text-sm'>{name}</p>
+          <p className='text-xs text-gray-400'>Added to cart!</p>
+        </div>
+      </div>
+    )
+    setTimeout(() => setAdding(false), 1200)
+  }
 
   return (
     <motion.div
@@ -24,19 +49,20 @@ const ProductItem = ({ id, image, name, price, bestseller }) => {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {/* Image container */}
         <div className='relative overflow-hidden rounded-2xl bg-gray-50 border border-gray-100 group-hover:border-gray-300 transition-all duration-500'>
 
           {/* Badges */}
           <div className='absolute top-3 left-3 z-10 flex flex-col gap-1.5'>
             {bestseller && (
-              <span className='bg-gray-900 text-white text-[9px] font-black px-2.5 py-1 rounded-full tracking-wider uppercase'>
+              <span className='accent-badge text-[9px] font-black px-2.5 py-1 rounded-full tracking-wider uppercase'>
                 🔥 Bestseller
               </span>
             )}
-            <span className='bg-white text-gray-600 text-[9px] font-bold px-2.5 py-1 rounded-full tracking-wider uppercase border border-gray-200 shadow-sm'>
-              ✦ New
-            </span>
+            {!bestseller && (
+              <span className='bg-white text-gray-600 text-[9px] font-bold px-2.5 py-1 rounded-full tracking-wider uppercase border border-gray-200 shadow-sm'>
+                ✦ New
+              </span>
+            )}
           </div>
 
           {/* Wishlist */}
@@ -49,10 +75,7 @@ const ProductItem = ({ id, image, name, price, bestseller }) => {
             </motion.span>
           </button>
 
-          {/* Shimmer skeleton */}
           {!imgLoaded && <div className='shimmer w-full aspect-square rounded-2xl' />}
-
-          {/* Product image */}
           <img
             onLoad={() => setImgLoaded(true)}
             src={image[0]}
@@ -60,26 +83,31 @@ const ProductItem = ({ id, image, name, price, bestseller }) => {
             className={`w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110 ${imgLoaded ? 'block' : 'hidden'}`}
           />
 
-          {/* Dark overlay on hover */}
           <motion.div
             animate={{ opacity: hovered ? 1 : 0 }}
             transition={{ duration: 0.3 }}
-            className='absolute inset-0 bg-gradient-to-t from-gray-900/30 via-gray-900/5 to-transparent'
+            className='absolute inset-0 bg-gradient-to-t from-gray-900/40 via-gray-900/5 to-transparent'
           />
 
-          {/* Quick view pill */}
+          {/* Quick Add button replaces "View Details" */}
           <motion.div
             animate={{ y: hovered ? 0 : 16, opacity: hovered ? 1 : 0 }}
             transition={{ duration: 0.3 }}
-            className='absolute bottom-4 left-0 right-0 flex justify-center'
+            className='absolute bottom-4 left-0 right-0 flex justify-center gap-2 px-3'
           >
-            <span className='bg-gray-900 text-white text-[10px] px-5 py-2 rounded-full tracking-widest uppercase font-bold'>
-              View Details
-            </span>
+            <button
+              onClick={handleQuickAdd}
+              className={`flex-1 py-2 rounded-full text-[10px] tracking-widest uppercase font-bold transition-all duration-300 ${
+                adding
+                  ? 'bg-green-500 text-white'
+                  : 'bg-white text-gray-900 hover:bg-accent hover:text-gray-900'
+              }`}
+            >
+              {adding ? '✓ Added!' : '+ Quick Add'}
+            </button>
           </motion.div>
         </div>
 
-        {/* Info */}
         <div className='pt-3 px-1'>
           <p className='text-gray-600 text-sm font-light line-clamp-2 group-hover:text-gray-900 transition-colors duration-300 leading-snug'>
             {name}

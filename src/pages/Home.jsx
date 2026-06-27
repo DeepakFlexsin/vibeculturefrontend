@@ -7,6 +7,7 @@ import LatestCollection from '../components/LatestCollection'
 import BestSeller from '../components/BestSeller'
 import OurPolicy from '../components/OurPolicy'
 import NewsletterBox from '../components/NewsletterBox'
+import { ReviewTicker } from '../components/SocialProof'
 
 const Home = () => {
   return (
@@ -19,10 +20,11 @@ const Home = () => {
       <Hero />
       <CategorySlider />
       <FlashSale />
-      <LatestCollection/>
-      <BestSeller/>
-      <OurPolicy/>
-      <NewsletterBox/>
+      <LatestCollection />
+      <BestSeller />
+      <ReviewTicker />
+      <OurPolicy />
+      <NewsletterBox />
     </div>
   )
 }

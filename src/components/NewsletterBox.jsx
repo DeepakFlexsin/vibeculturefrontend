@@ -28,6 +28,14 @@ const NewsletterBox = () => {
         <p className='text-gray-500 text-sm mb-8 font-light'>
           Subscribe & get <span className='text-gray-900 font-semibold'>20% off</span> your first order. New drops, exclusive deals on VibeCulture premium apparel.
         </p>
+        <div className='flex items-center justify-center gap-2 mb-6'>
+          <div className='flex -space-x-2'>
+            {['A','R','V','S','K'].map((l,i) => (
+              <div key={i} className='w-7 h-7 rounded-full bg-gray-900 border-2 border-white flex items-center justify-center text-white text-[9px] font-bold'>{l}</div>
+            ))}
+          </div>
+          <p className='text-gray-500 text-xs'><span className='text-gray-900 font-semibold'>2,400+ subscribers</span> already joined</p>
+        </div>
 
         {submitted ? (
           <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
