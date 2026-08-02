@@ -91,7 +91,11 @@ const Product = () => {
 
   const productKey = productData.seo?.slug || productData._id
   const productUrl = `https://www.vibeculture.in/product/${productKey}`
-  const ogImage = productData.seo?.ogImage || productData.image?.[0] || ''
+  // Prefer gallery image — seo.ogImage is often a broken/stale Cloudinary URL
+  const rawOg = productData.image?.[0] || productData.seo?.ogImage || 'https://www.vibeculture.in/logo.png'
+  const ogImage = rawOg.includes('res.cloudinary.com') && rawOg.includes('/upload/') && !/\/upload\/[^/]*f_/.test(rawOg)
+    ? rawOg.replace('/upload/', '/upload/f_jpg,w_1200,h_1200,c_fill,q_auto:good/')
+    : rawOg
   const plainDesc = String(productData.description || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().slice(0, 160)
   const categoryName = typeof productData.category === 'object' ? productData.category?.name : productData.category
   const shareText = `${productData.name}\n₹${currentPrice}${categoryName ? ` · ${categoryName}` : ''}${plainDesc ? `\n${plainDesc}` : ''}\n\nShop now: ${productUrl}`
@@ -162,11 +166,12 @@ const Product = () => {
         <meta property="og:description" content={productData.seo?.metaDescription || plainDesc || `Buy ${productData.name} for ₹${currentPrice} at VibeCulture`} />
         <meta property="og:image" content={ogImage} />
         <meta property="og:image:secure_url" content={ogImage} />
+        <meta property="og:image:type" content="image/jpeg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="1200" />
         <meta property="og:image:alt" content={productData.name} />
         <meta property="og:url" content={productUrl} />
-        <meta property="og:type" content="product" />
+        <meta property="og:type" content="website" />
         <meta property="og:site_name" content="VibeCulture" />
         <meta property="product:price:amount" content={String(currentPrice)} />
         <meta property="product:price:currency" content="INR" />

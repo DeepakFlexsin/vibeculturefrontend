@@ -16,7 +16,7 @@
           "value": "(?i).*(whatsapp|facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|TelegramBot|Googlebot|bingbot|DuckDuckBot|Baiduspider|YandexBot|Pinterest|redditbot|Applebot).*"
         }
       ],
-      "destination": "https://api.krivante.store/api/product/og/:idOrSlug"
+      "destination": "/api/og?idOrSlug=:idOrSlug"
     },
     {
       "source": "/(.*)",
