@@ -8,6 +8,17 @@
   ],
   "rewrites": [
     {
+      "source": "/product/:idOrSlug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": "(?i).*(whatsapp|facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|TelegramBot|Googlebot|bingbot|DuckDuckBot|Baiduspider|YandexBot|Pinterest|redditbot|Applebot).*"
+        }
+      ],
+      "destination": "https://api.krivante.store/api/product/og/:idOrSlug"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

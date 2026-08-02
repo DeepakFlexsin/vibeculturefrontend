@@ -30,15 +30,26 @@ const Product = () => {
   }
 
   useEffect(() => {
-    const item = products.find(i => i._id === productId)
+    if (!products.length || !productId) return
+    const item = products.find(i =>
+      i._id === productId || i.seo?.slug === productId
+    )
     if (item) {
       setProductData(item)
-      setImage(item.image[0])
+      setImage(item.image?.[0] || '')
       if (item.variants?.length > 0) {
         setAvailableVariants(item.variants)
         setupAttributeOptions(item.variants)
         setSelectedVariant(null)
+        setSelectedAttributes({})
+      } else {
+        setAvailableVariants([])
+        setAttributeOptions([])
+        setSelectedVariant(null)
+        setSelectedAttributes({})
       }
+    } else {
+      setProductData(false)
     }
   }, [productId, products])
 
@@ -78,20 +89,27 @@ const Product = () => {
 
   const currentPrice = selectedVariant ? selectedVariant.price : productData.price
 
-  const productUrl = `https://www.vibeculture.in/product/${productData.seo?.slug || productData._id}`
+  const productKey = productData.seo?.slug || productData._id
+  const productUrl = `https://www.vibeculture.in/product/${productKey}`
+  const ogImage = productData.seo?.ogImage || productData.image?.[0] || ''
+  const plainDesc = String(productData.description || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().slice(0, 160)
+  const categoryName = typeof productData.category === 'object' ? productData.category?.name : productData.category
+  const shareText = `${productData.name}\n₹${currentPrice}${categoryName ? ` · ${categoryName}` : ''}${plainDesc ? `\n${plainDesc}` : ''}\n\nShop now: ${productUrl}`
 
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({ title: productData.name, text: `Check this out – ${productData.name} at ₹${currentPrice}`, url: productUrl })
-    } else {
-      navigator.clipboard.writeText(productUrl)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    }
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: productData.name, text: shareText, url: productUrl })
+        return
+      }
+    } catch (_) { /* user cancelled */ }
+    navigator.clipboard.writeText(productUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   const handleWhatsApp = () => {
-    window.open(`https://wa.me/?text=${encodeURIComponent(`${productData.name} – ₹${currentPrice}\n${productUrl}`)}`, '_blank')
+    window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank')
   }
 
   const inStock = selectedVariant ? selectedVariant.quantity > 0 : productData.variants?.some(v => v.quantity > 0) ?? true
@@ -137,19 +155,27 @@ const Product = () => {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='min-h-screen bg-gray-50 pt-6 pb-20 px-4 sm:px-6'>
       <Helmet>
         <title>{productData.seo?.metaTitle || `${productData.name} | VibeCulture`}</title>
-        <meta name="description" content={productData.seo?.metaDescription || `Buy ${productData.name} at VibeCulture. ${String(productData.description || '').replace(/<[^>]+>/g, '').slice(0, 120)}`} />
+        <meta name="description" content={productData.seo?.metaDescription || `Buy ${productData.name} at VibeCulture. ${plainDesc.slice(0, 120)}`} />
         {productData.seo?.metaKeywords && <meta name="keywords" content={productData.seo.metaKeywords} />}
-        <link rel="canonical" href={productData.seo?.canonicalUrl || `https://www.vibeculture.in/product/${productData._id}`} />
+        <link rel="canonical" href={productData.seo?.canonicalUrl || productUrl} />
         <meta property="og:title" content={productData.seo?.metaTitle || productData.name} />
-        <meta property="og:description" content={productData.seo?.metaDescription || String(productData.description || '').replace(/<[^>]+>/g, '').slice(0, 160)} />
-        <meta property="og:image" content={productData.seo?.ogImage || productData.image?.[0]} />
-        <meta property="og:image:width" content="800" />
-        <meta property="og:image:height" content="800" />
-        <meta property="og:image:type" content="image/jpeg" />
-        <meta property="og:url" content={`https://www.vibeculture.in/product/${productData.seo?.slug || productData._id}`} />
+        <meta property="og:description" content={productData.seo?.metaDescription || plainDesc || `Buy ${productData.name} for ₹${currentPrice} at VibeCulture`} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:secure_url" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="1200" />
+        <meta property="og:image:alt" content={productData.name} />
+        <meta property="og:url" content={productUrl} />
         <meta property="og:type" content="product" />
+        <meta property="og:site_name" content="VibeCulture" />
+        <meta property="product:price:amount" content={String(currentPrice)} />
+        <meta property="product:price:currency" content="INR" />
+        <meta property="product:availability" content={inStock ? 'in stock' : 'out of stock'} />
+        <meta property="product:brand" content="VibeCulture" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={productData.seo?.ogImage || productData.image?.[0]} />
+        <meta name="twitter:title" content={productData.seo?.metaTitle || productData.name} />
+        <meta name="twitter:description" content={productData.seo?.metaDescription || plainDesc} />
+        <meta name="twitter:image" content={ogImage} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </Helmet>
 
@@ -191,7 +217,7 @@ const Product = () => {
             className='flex-1 lg:max-w-md'>
 
             <span className='inline-block bg-gray-100 text-gray-700 text-[10px] tracking-[0.25em] uppercase px-3 py-1.5 rounded-full border border-gray-200 mb-4'>
-              ✦ {typeof productData.category === 'object' ? productData.category.name : productData.category}
+              ✦ {categoryName}
             </span>
 
             <h1 className='font-serif text-3xl sm:text-4xl font-light text-gray-900 leading-tight mb-3 italic'>
